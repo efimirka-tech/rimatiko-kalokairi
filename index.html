@@ -1,0 +1,1906 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Ρηματικό Καλοκαίρι · Stamenou Education</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Source+Sans+3:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sage:#7A9471;
+  --sage-dark:#5E7355;
+  --sage-light:#E4EBE0;
+  --sienna:#C17F59;
+  --sienna-dark:#A6643F;
+  --ink:#2B2E26;
+  --cream:#FAF7F0;
+  --cream-deep:#F1ECE0;
+  --paper:#FFFFFF;
+  --success:#7FAE5C;
+  --success-bg:#EAF3E2;
+  --error:#D4806B;
+  --error-bg:#FBEAE4;
+  --gold:#D6A24C;
+  --shadow-sm: 0 2px 6px rgba(43,46,38,0.06);
+  --shadow-md: 0 6px 18px rgba(43,46,38,0.10);
+  --shadow-btn: 0 4px 0 rgba(0,0,0,0.12);
+  --radius-lg: 22px;
+  --radius-md: 16px;
+  --radius-sm: 10px;
+  --font-display: 'Cormorant Garamond', serif;
+  --font-body: 'Source Sans 3', sans-serif;
+}
+
+*{box-sizing:border-box; margin:0; padding:0;}
+html,body{
+  font-family: var(--font-body);
+  background: var(--cream);
+  color: var(--ink);
+  min-height: 100vh;
+  -webkit-tap-highlight-color: transparent;
+}
+body{
+  background-image:
+    radial-gradient(circle at 8% 8%, rgba(122,148,113,0.07) 0%, transparent 38%),
+    radial-gradient(circle at 92% 88%, rgba(193,127,89,0.08) 0%, transparent 42%);
+  overflow-x:hidden;
+}
+img,svg{display:block;}
+button{font-family:inherit; cursor:pointer; border:none; background:none;}
+input{font-family:inherit;}
+a{color:inherit; text-decoration:none;}
+
+.app{max-width:480px; margin:0 auto; min-height:100vh; position:relative; display:flex; flex-direction:column;}
+
+/* ---------- Loading screen ---------- */
+.boot{display:flex; align-items:center; justify-content:center; min-height:100vh; flex-direction:column; gap:14px;}
+.boot-leaf{width:46px;height:46px;opacity:0.5; animation:spin 1.4s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.boot p{color:var(--sage-dark); font-size:0.95rem;}
+
+/* ---------- Top bar ---------- */
+.topbar{
+  position:sticky; top:0; z-index:20;
+  display:flex; align-items:center; justify-content:space-between;
+  padding: 14px 18px;
+  background: rgba(250,247,240,0.92);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(43,46,38,0.06);
+}
+.brand{display:flex; align-items:center; gap:9px;}
+.brand-mark{width:30px;height:30px; flex-shrink:0;}
+.brand-text{font-family:var(--font-display); font-weight:600; font-size:1.18rem; color:var(--ink); letter-spacing:0.2px;}
+.brand-text small{display:block; font-family:var(--font-body); font-weight:600; font-size:0.56rem; letter-spacing:1.6px; text-transform:uppercase; color:var(--sage-dark); margin-top:-2px;}
+
+.topbar-stats{display:flex; align-items:center; gap:10px;}
+.pill{
+  display:flex; align-items:center; gap:5px;
+  background:var(--paper); border-radius:999px; padding:6px 11px;
+  box-shadow: var(--shadow-sm);
+  font-weight:700; font-size:0.92rem; color:var(--ink);
+}
+.pill.streak{color:var(--sienna-dark);}
+.pill .ic{font-size:1rem; line-height:1;}
+.logout-btn{
+  display:flex; align-items:center; justify-content:center;
+  width:34px; height:34px; border-radius:50%;
+  color: var(--sage-dark); opacity:0.65;
+}
+.logout-btn:hover{opacity:1; background:var(--sage-light);}
+
+/* ---------- Generic screen container ---------- */
+.screen{flex:1; display:flex; flex-direction:column; padding: 22px 20px 100px;}
+.screen.center{align-items:center; justify-content:center; text-align:center;}
+.hidden{display:none !important;}
+
+/* ---------- Login screen ---------- */
+.login-wrap{display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:100vh; padding:32px 24px; gap:0;}
+.login-mark{width:74px; height:74px; margin-bottom:18px;}
+.login-title{font-family:var(--font-display); font-weight:600; font-size:2.1rem; color:var(--ink); text-align:center; line-height:1.15;}
+.login-sub{font-family:var(--font-body); font-size:0.95rem; color:var(--sage-dark); margin-top:6px; margin-bottom:8px; text-align:center; font-weight:600;}
+.login-dates{font-size:0.82rem; color:#8a8a7a; margin-bottom:30px; text-align:center;}
+
+.login-card{
+  width:100%; max-width:360px; background:var(--paper); border-radius:var(--radius-lg);
+  padding:26px 24px 28px; box-shadow:var(--shadow-md); display:flex; flex-direction:column; gap:16px;
+}
+.field-label{font-size:0.82rem; font-weight:700; color:var(--ink); margin-bottom:6px; display:block;}
+.field-input{
+  width:100%; padding:13px 16px; border-radius:var(--radius-sm);
+  border:2px solid var(--cream-deep); background:var(--cream); font-size:1.05rem;
+  color:var(--ink); font-weight:600; letter-spacing:0.3px;
+  transition: border-color 0.15s ease;
+}
+.field-input:focus{outline:none; border-color:var(--sage);}
+.field-input.pin{letter-spacing:6px; text-align:center; font-family:var(--font-display); font-size:1.4rem;}
+
+.btn{
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  border-radius:999px; padding:15px 20px; font-weight:800; font-size:1rem;
+  letter-spacing:0.2px; transition: transform 0.08s ease, box-shadow 0.08s ease; user-select:none;
+}
+.btn:active{transform:translateY(2px); box-shadow:none !important;}
+.btn-primary{background:var(--sage); color:#fff; box-shadow: 0 4px 0 var(--sage-dark);}
+.btn-primary:disabled{background:#cfd6c9; box-shadow:0 4px 0 #bcc4b4; color:#fff; cursor:not-allowed;}
+.btn-secondary{background:var(--paper); color:var(--ink); box-shadow:0 4px 0 var(--cream-deep); border:2px solid var(--cream-deep);}
+.btn-ghost{background:transparent; color:var(--sage-dark); font-weight:700; padding:10px;}
+.btn-sienna{background:var(--sienna); color:#fff; box-shadow:0 4px 0 var(--sienna-dark);}
+.btn-block{width:100%;}
+.btn-sm{padding:9px 16px; font-size:0.85rem;}
+
+.login-error{
+  color:var(--error); background:var(--error-bg); border-radius:var(--radius-sm);
+  padding:10px 14px; font-size:0.86rem; font-weight:600; text-align:center;
+}
+.login-foot{margin-top:28px; font-size:0.78rem; color:#9a9a8a; text-align:center;}
+.admin-hatch{
+  position:fixed; bottom:10px; right:14px; width:34px; height:34px;
+  opacity:0.18; border-radius:50%;
+}
+.admin-hatch:active{opacity:0.4;}
+
+/* ---------- Home screen ---------- */
+.hello{font-family:var(--font-display); font-weight:600; font-size:1.65rem; color:var(--ink); margin-bottom:2px;}
+.hello-sub{color:#7c7c6c; font-size:0.92rem; margin-bottom:22px;}
+
+.progress-ring-wrap{display:flex; align-items:center; gap:16px; background:var(--paper); border-radius:var(--radius-lg); padding:18px 20px; box-shadow:var(--shadow-sm); margin-bottom:18px;}
+.progress-ring{width:64px; height:64px; flex-shrink:0;}
+.progress-ring-info{flex:1;}
+.progress-ring-info .big{font-family:var(--font-display); font-weight:700; font-size:1.5rem; color:var(--ink); line-height:1;}
+.progress-ring-info .small{font-size:0.82rem; color:#8a8a7a; margin-top:3px;}
+
+.day-strip{display:flex; gap:7px; overflow-x:auto; padding:4px 2px 14px; margin:0 -2px 6px; scrollbar-width:none;}
+.day-strip::-webkit-scrollbar{display:none;}
+.day-dot{
+  flex-shrink:0; width:38px; height:48px; border-radius:12px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px;
+  background:var(--paper); border:2px solid var(--cream-deep); font-size:0.68rem; font-weight:700; color:#9a9a8a;
+}
+.day-dot .num{font-size:0.86rem; font-family:var(--font-display); font-weight:700;}
+.day-dot.done{background:var(--sage); border-color:var(--sage-dark); color:#fff;}
+.day-dot.today{border-color:var(--sienna); color:var(--sienna-dark); box-shadow:0 0 0 3px rgba(193,127,89,0.15);}
+.day-dot.today .num{color:var(--sienna-dark);}
+
+.section-title{font-family:var(--font-display); font-weight:600; font-size:1.2rem; color:var(--ink); margin: 18px 0 12px; display:flex; align-items:center; justify-content:space-between;}
+.section-title span.count{font-family:var(--font-body); font-size:0.78rem; color:#9a9a8a; font-weight:600;}
+
+.verb-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:10px;}
+.verb-tile{
+  background:var(--paper); border-radius:var(--radius-md); padding:14px 8px 12px;
+  display:flex; flex-direction:column; align-items:center; gap:6px;
+  box-shadow:var(--shadow-sm); position:relative; border:2px solid transparent;
+}
+.verb-tile.locked{opacity:0.5;}
+.verb-tile.mastered{border-color:var(--sage);}
+.verb-tile .lemma{font-family:var(--font-display); font-weight:600; font-size:1.05rem; color:var(--ink); text-align:center; line-height:1.15;}
+.verb-tile .day-tag{font-size:0.62rem; font-weight:700; color:#a3a395; text-transform:uppercase; letter-spacing:0.4px;}
+.verb-tile .badge{position:absolute; top:-6px; right:-6px; width:20px; height:20px;}
+.verb-tile .lock-ic{position:absolute; top:8px; right:8px; opacity:0.4;}
+
+.cta-floating{position:sticky; bottom:0; left:0; right:0; padding:14px 20px 22px; background:linear-gradient(to top, var(--cream) 60%, transparent); margin-top:auto;}
+
+/* ---------- Bottom nav ---------- */
+.bottom-nav{
+  position:sticky; bottom:0; z-index:20; display:flex; background:var(--paper);
+  border-top:1px solid rgba(43,46,38,0.07); padding:8px 6px max(8px, env(safe-area-inset-bottom));
+}
+.nav-item{flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; padding:7px 4px; border-radius:14px; color:#aaa99a; font-size:0.66rem; font-weight:700;}
+.nav-item.active{color:var(--sage-dark);}
+.nav-item svg{width:22px; height:22px;}
+
+/* ---------- Verb detail screen ---------- */
+.vd-header{display:flex; align-items:center; gap:10px; margin-bottom:6px;}
+.back-btn{width:36px; height:36px; display:flex; align-items:center; justify-content:center; border-radius:50%; background:var(--paper); box-shadow:var(--shadow-sm); flex-shrink:0;}
+.vd-lemma{font-family:var(--font-display); font-weight:700; font-size:2.1rem; color:var(--ink); line-height:1.1;}
+.vd-translation{font-size:1rem; color:var(--sage-dark); font-weight:600; margin: 2px 0 0 46px;}
+
+.fact-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin: 20px 0;}
+.fact-box{background:var(--paper); border-radius:var(--radius-md); padding:13px 14px; box-shadow:var(--shadow-sm);}
+.fact-box.full{grid-column:1/-1;}
+.fact-box .flabel{font-size:0.66rem; font-weight:800; letter-spacing:0.5px; text-transform:uppercase; color:var(--sienna-dark); margin-bottom:4px;}
+.fact-box .fvalue{font-size:0.93rem; color:var(--ink); line-height:1.45; font-weight:500;}
+.fact-box .fvalue.greek{font-family:var(--font-display); font-size:1.08rem; font-weight:600;}
+
+.carousel-label{font-family:var(--font-display); font-weight:600; font-size:1.1rem; margin: 4px 0 10px; color:var(--ink);}
+.tense-carousel{display:flex; gap:12px; overflow-x:auto; scroll-snap-type:x mandatory; padding: 4px 2px 18px; margin: 0 -4px;}
+.tense-carousel::-webkit-scrollbar{display:none;}
+.tense-card{
+  scroll-snap-align:start; flex-shrink:0; width:78%; max-width:280px;
+  background:var(--paper); border-radius:var(--radius-lg); padding:18px 18px 16px;
+  box-shadow:var(--shadow-md); border-top:5px solid var(--sage);
+}
+.tense-card .tname{font-size:0.72rem; font-weight:800; text-transform:uppercase; letter-spacing:0.6px; color:var(--sage-dark); margin-bottom:10px;}
+.voice-row{margin-bottom:10px;}
+.voice-row:last-child{margin-bottom:0;}
+.voice-row .vlabel{font-size:0.66rem; font-weight:700; color:#9a9a8a; text-transform:uppercase; letter-spacing:0.4px; margin-bottom:2px;}
+.voice-row .vform{font-family:var(--font-display); font-size:1.25rem; font-weight:600; color:var(--ink); line-height:1.3;}
+
+.dots-row{display:flex; justify-content:center; gap:6px; margin-bottom:8px;}
+.dots-row .dot{width:6px; height:6px; border-radius:50%; background:var(--cream-deep);}
+.dots-row .dot.active{background:var(--sage); width:16px; border-radius:4px; transition:0.2s;}
+
+/* ---------- Quiz screen ---------- */
+.quiz-progress-bar{height:10px; border-radius:999px; background:var(--cream-deep); overflow:hidden; margin-bottom:22px;}
+.quiz-progress-fill{height:100%; background:var(--sage); border-radius:999px; transition:width 0.3s ease;}
+.quiz-q-label{font-size:0.78rem; font-weight:700; color:var(--sienna-dark); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px;}
+.quiz-question{font-family:var(--font-display); font-weight:600; font-size:1.45rem; color:var(--ink); line-height:1.3; margin-bottom:26px;}
+.quiz-question .hl{color:var(--sage-dark);}
+.quiz-input-wrap{margin-bottom:14px;}
+.quiz-input{
+  width:100%; padding:16px 18px; border-radius:var(--radius-md); border:2.5px solid var(--cream-deep);
+  background:var(--paper); font-family:var(--font-display); font-size:1.3rem; font-weight:600; color:var(--ink); text-align:center;
+}
+.quiz-input:focus{outline:none; border-color:var(--sage);}
+.quiz-input.correct{border-color:var(--success); background:var(--success-bg);}
+.quiz-input.wrong{border-color:var(--error); background:var(--error-bg);}
+.quiz-options{display:flex; flex-direction:column; gap:10px;}
+.quiz-option{
+  background:var(--paper); border:2.5px solid var(--cream-deep); border-radius:var(--radius-md);
+  padding:15px 18px; font-family:var(--font-display); font-size:1.1rem; font-weight:600; color:var(--ink); text-align:left;
+}
+.quiz-option.correct{border-color:var(--success); background:var(--success-bg); color:#456b34;}
+.quiz-option.wrong{border-color:var(--error); background:var(--error-bg); color:#a14b37;}
+.quiz-option:disabled{opacity:0.55;}
+
+.feedback-banner{
+  position:fixed; left:0; right:0; bottom:0; z-index:30; padding:18px 20px max(18px, env(safe-area-inset-bottom));
+  display:flex; align-items:center; justify-content:space-between; gap:14px;
+  transform:translateY(110%); transition: transform 0.28s cubic-bezier(.2,.9,.3,1.2);
+}
+.feedback-banner.show{transform:translateY(0);}
+.feedback-banner.ok{background:var(--success-bg);}
+.feedback-banner.bad{background:var(--error-bg);}
+.feedback-left{display:flex; align-items:center; gap:12px;}
+.feedback-icon{width:34px; height:34px; flex-shrink:0;}
+.feedback-text{font-weight:800; font-size:1.05rem;}
+.feedback-banner.ok .feedback-text{color:#456b34;}
+.feedback-banner.bad .feedback-text{color:#a14b37;}
+.feedback-sub{font-size:0.82rem; font-weight:500; margin-top:1px;}
+.feedback-banner.ok .feedback-sub{color:#5d8047;}
+.feedback-banner.bad .feedback-sub{color:#b56750;}
+
+/* ---------- Day complete screen ---------- */
+.complete-wrap{display:flex; flex-direction:column; align-items:center; text-align:center; padding-top:6vh;}
+.complete-burst{width:140px; height:140px; margin-bottom:8px;}
+.complete-title{font-family:var(--font-display); font-weight:700; font-size:1.9rem; color:var(--ink); margin-bottom:6px;}
+.complete-sub{color:#7c7c6c; font-size:0.98rem; margin-bottom:26px; max-width:300px;}
+.complete-stats{display:flex; gap:12px; width:100%; max-width:340px; margin-bottom:30px;}
+.cstat{flex:1; background:var(--paper); border-radius:var(--radius-md); padding:16px 8px; box-shadow:var(--shadow-sm); text-align:center;}
+.cstat .cval{font-family:var(--font-display); font-weight:700; font-size:1.5rem; color:var(--sage-dark);}
+.cstat .clabel{font-size:0.7rem; color:#9a9a8a; font-weight:700; text-transform:uppercase; letter-spacing:0.3px; margin-top:2px;}
+
+/* ---------- Admin ---------- */
+.admin-screen{max-width:760px;}
+.admin-topbar{display:flex; align-items:center; justify-content:space-between; padding:16px 20px; background:var(--ink); color:#fff;}
+.admin-topbar .brand-text{color:#fff;}
+.admin-topbar .brand-text small{color:#cdd8c8;}
+.admin-body{padding:20px;}
+.admin-search{width:100%; padding:12px 16px; border-radius:var(--radius-sm); border:2px solid var(--cream-deep); margin-bottom:16px; font-size:0.95rem;}
+.student-card{background:var(--paper); border-radius:var(--radius-md); padding:16px 18px; box-shadow:var(--shadow-sm); margin-bottom:10px;}
+.student-row{display:flex; align-items:center; justify-content:space-between; gap:10px;}
+.student-name{font-weight:700; font-size:1.02rem; color:var(--ink);}
+.student-meta{font-size:0.78rem; color:#9a9a8a; margin-top:2px;}
+.student-stats{display:flex; gap:14px; margin-top:12px; flex-wrap:wrap;}
+.sstat{font-size:0.8rem; color:var(--ink); font-weight:600;}
+.sstat .sval{color:var(--sage-dark); font-family:var(--font-display); font-weight:700; font-size:1rem;}
+.mini-bar{height:6px; border-radius:999px; background:var(--cream-deep); margin-top:10px; overflow:hidden;}
+.mini-bar-fill{height:100%; background:var(--sienna); border-radius:999px;}
+.admin-empty{text-align:center; padding:60px 20px; color:#9a9a8a;}
+.admin-gen-card{background:var(--sage-light); border-radius:var(--radius-md); padding:16px 18px; margin-bottom:18px; display:flex; flex-direction:column; gap:10px;}
+.gen-row{display:flex; gap:8px;}
+.gen-row input{flex:1; padding:11px 14px; border-radius:var(--radius-sm); border:2px solid #d6e0d0; font-size:0.92rem;}
+.gen-list{font-size:0.85rem; color:var(--sage-dark); line-height:1.6;}
+.tab-row{display:flex; gap:8px; margin-bottom:18px;}
+.tab-btn{padding:9px 16px; border-radius:999px; font-weight:700; font-size:0.85rem; background:var(--paper); color:#9a9a8a; box-shadow:var(--shadow-sm);}
+.tab-btn.active{background:var(--sage); color:#fff;}
+
+/* ---------- Toast ---------- */
+.toast{
+  position:fixed; top:18px; left:50%; transform:translateX(-50%) translateY(-30px); z-index:50;
+  background:var(--ink); color:#fff; padding:12px 20px; border-radius:999px; font-size:0.88rem; font-weight:600;
+  opacity:0; transition:0.25s ease; box-shadow:var(--shadow-md);
+}
+.toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+
+@media (min-width:520px){
+  .app{box-shadow: var(--shadow-md); margin-top:0;}
+}
+</style>
+</head>
+<body>
+
+<div id="root"></div>
+
+<script>
+// Δεδομένα 30 ρημάτων - Ρηματικό Καλοκαίρι 2026 (1-31 Ιουλίου)
+const VERBS = [
+  {
+    "id": "aireo",
+    "lemma": "αἱρέω-ῶ",
+    "translation": "συλλαμβάνω, παίρνω, αιρούμαι (μέσ.) = εκλέγω",
+    "tenses": {
+      "active": {
+        "present": "αἱρῶ (-ὲω)",
+        "imperfect": "ἥρουν",
+        "future": "αἱρήσω",
+        "aorist": "εἶλον",
+        "perfect": "ἥρηκα",
+        "pluperfect": "ᾑρήκειν"
+      },
+      "middle_passive": {
+        "present": "αἱροῦμαι",
+        "imperfect": "ᾑρούμην",
+        "future": "αἱρήσομαι, αἱρεθήσομαι",
+        "aorist": "εἱλόμην, ᾑρέθην",
+        "perfect": "ἥρημαι",
+        "pluperfect": "ᾑρήμην"
+      }
+    },
+    "syntax": "+ αιτιατική, + 2 αιτιατικές",
+    "stem": "αἱρε-, ἑλ-",
+    "cognates": "αίρεση, αιρετός, εξαίρετος, αφαίρεση",
+    "notes": "Βλ. ποιέω-ῶ."
+  },
+  {
+    "id": "apothnisko",
+    "lemma": "ἀποθνῄσκω",
+    "translation": "πεθαίνω",
+    "tenses": {
+      "active": {
+        "present": "ἀποθνῄσκω",
+        "imperfect": "ἀπέθνῃσκον",
+        "future": "ἀποθανοῦμαι",
+        "aorist": "ἀπέθανον (β')",
+        "perfect": "τέθνηκα",
+        "pluperfect": "ἐτεθνήκειν"
+      }
+    },
+    "syntax": "+ δοτική οργάνου, + σύστοιχο αντικείμενο",
+    "stem": "θαν-, θνη-",
+    "cognates": "θάνατος, θνητός, αθάνατος, ημιθανής, θνησιμότητα",
+    "notes": "Μέλλοντας: βλ. ἀγγέλλω. Αόριστος β': βλ. βάλλω. Η κλίση του Παρακειμένου και του Υπερσυντελίκου παρουσιάζει παράλληλους τύπους."
+  },
+  {
+    "id": "apollymi",
+    "lemma": "ἀπόλλυμι/ἀπολλύω",
+    "translation": "αφανίζω, καταστρέφω (μέσ. χάνομαι, χάνω)",
+    "tenses": {
+      "active": {
+        "present": "ἀπόλλυμι, ἀπολλύω",
+        "imperfect": "ἀπώλλυν, ἀπώλλυον",
+        "future": "ἀπολῶ",
+        "aorist": "ἀπώλεσα",
+        "perfect": "ἀπολώλεκα",
+        "pluperfect": "ἀπωλωλέκειν"
+      },
+      "middle_passive": {
+        "present": "ἀπόλλυμαι",
+        "imperfect": "ἀπωλλύμην",
+        "future": "ἀπολοῦμαι",
+        "aorist": "ἀπωλόμην (Αόρ.β')",
+        "perfect": "ἀπόλωλα",
+        "pluperfect": "ἀπωλώλειν"
+      }
+    },
+    "syntax": "+ αιτιατική",
+    "stem": "ὀλ-, ὀλε-",
+    "cognates": "όλεθρος, ολέθριος, απώλεια, εξώλης",
+    "notes": "Μέλλοντας, Αόριστος: βλ. ἀγγέλλω. Μέσος Αόρ.β': βλ. βάλλω."
+  },
+  {
+    "id": "baino",
+    "lemma": "βαίνω",
+    "translation": "βαδίζω",
+    "tenses": {
+      "active": {
+        "present": "βαίνω",
+        "imperfect": "ἔβαινον",
+        "future": "βήσομαι",
+        "aorist": "ἔβην (β')",
+        "perfect": "βέβηκα",
+        "pluperfect": "ἐβεβήκειν"
+      }
+    },
+    "syntax": "+ αμετάβατο, + αιτιατική",
+    "stem": "βα-, βη-",
+    "cognates": "βάση, βήμα, διάβαση, ανάβαση, βάθρο, βατήρας, βωμός",
+    "notes": "Αόριστος β': βλ. ἵστημι."
+  },
+  {
+    "id": "vallo",
+    "lemma": "βάλλω",
+    "translation": "ρίχνω",
+    "tenses": {
+      "active": {
+        "present": "βάλλω",
+        "imperfect": "ἔβαλλον",
+        "future": "βαλῶ",
+        "aorist": "ἔβαλον (β')",
+        "perfect": "βέβληκα",
+        "pluperfect": "ἐβεβλήκειν"
+      },
+      "middle_passive": {
+        "present": "βάλλομαι",
+        "imperfect": "ἐβαλλόμην",
+        "future": "βαλοῦμαι, βληθήσομαι",
+        "aorist": "ἐβαλόμην (β'), ἐβλήθην",
+        "perfect": "βέβλημαι",
+        "pluperfect": "ἐβεβλήμην"
+      }
+    },
+    "syntax": "+ αιτιατική, + εμπρόθετος προσδιορισμός",
+    "stem": "βαλ-, βλη-",
+    "cognates": "βλήμα, βολή, έμβλημα, βέλος, προβλήτα",
+    "notes": "Μέλλοντας: βλ. ἀγγέλλω. Αόριστος β': βλ. βάλλω."
+  },
+  {
+    "id": "voulomai",
+    "lemma": "βούλομαι",
+    "translation": "επιθυμώ, θέλω",
+    "tenses": {
+      "middle_passive": {
+        "present": "βούλομαι",
+        "imperfect": "ἐβουλόμην, ἠβουλόμην",
+        "future": "βουλήσομαι",
+        "aorist": "ἐβουλήθην, ἠβουλήθην",
+        "perfect": "βεβούλημαι",
+        "pluperfect": "ἐβεβουλήμην"
+      }
+    },
+    "syntax": "+ τελικό απαρέμφατο, + αιτιατική",
+    "stem": "βουλ-",
+    "cognates": "βούληση, βουλητικός, αβουλία",
+    "notes": "—"
+  },
+  {
+    "id": "gignomai",
+    "lemma": "γίγνομαι",
+    "translation": "γίνομαι",
+    "tenses": {
+      "middle_passive": {
+        "present": "γίγνομαι",
+        "imperfect": "ἐγιγνόμην",
+        "future": "γενήσομαι",
+        "aorist": "ἐγενόμην (β')",
+        "perfect": "γεγένημαι, γέγονα",
+        "pluperfect": "ἐγεγενήμην, ἐγεγόνειν"
+      }
+    },
+    "syntax": "+ κατηγορούμενο, + δοτική",
+    "stem": "γεν-, γον-, γιγν-",
+    "cognates": "γένος, γονέας, γόνος, γένεση, γεγονός",
+    "notes": "Αόριστος β': βλ. βάλλω."
+  },
+  {
+    "id": "gignosko",
+    "lemma": "γιγνώσκω",
+    "translation": "γνωρίζω",
+    "tenses": {
+      "active": {
+        "present": "γιγνώσκω",
+        "imperfect": "ἐγίγνωσκον",
+        "future": "γνώσομαι",
+        "aorist": "ἔγνων (β')",
+        "perfect": "ἔγνωκα",
+        "pluperfect": "ἐγνώκειν"
+      },
+      "middle_passive": {
+        "present": "γιγνώσκομαι",
+        "imperfect": "ἐγιγνωσκόμην",
+        "future": "γνωσθήσομαι",
+        "aorist": "ἐγνώσθην",
+        "perfect": "ἔγνωσμαι",
+        "pluperfect": "ἐγνώσμην"
+      }
+    },
+    "syntax": "+ αιτιατική, + δύο αιτιατικές, + ειδική πρόταση, + πλάγια ερωτηματική",
+    "stem": "γνο-, γνω-",
+    "cognates": "γνώση, γνώμη, γνώριμος, άγνοια, διάγνωση, συγγνώμη",
+    "notes": "Β΄ αόρ. κατά τα -μι. Παθητικός Παρακείμενος, Υπερσυντέλικος: βλ. πείθω."
+  },
+  {
+    "id": "grapho",
+    "lemma": "γράφω",
+    "translation": "γράφω, ζωγραφίζω",
+    "tenses": {
+      "active": {
+        "present": "γράφω",
+        "imperfect": "ἔγραφον",
+        "future": "γράψω",
+        "aorist": "ἔγραψα",
+        "perfect": "γέγραφα",
+        "pluperfect": "ἐγεγράφειν"
+      },
+      "middle_passive": {
+        "present": "γράφομαι",
+        "imperfect": "ἐγραφόμην",
+        "future": "γράψομαι, γραφήσομαι",
+        "aorist": "ἐγραψάμην, ἐγράφην",
+        "perfect": "γέγραμμαι",
+        "pluperfect": "ἐγεγράμμην"
+      }
+    },
+    "syntax": "+ αιτιατική, + δοτική & ειδική πρόταση",
+    "stem": "γραφ- < γρ-",
+    "cognates": "γραφή, γράμμα, γραφείο, γραμμή, ζωγράφος",
+    "notes": "Βλ. γράφω."
+  },
+  {
+    "id": "deiknymi",
+    "lemma": "δείκνυμι",
+    "translation": "φανερώνω",
+    "tenses": {
+      "active": {
+        "present": "δείκνυμι",
+        "imperfect": "ἐδείκνυν",
+        "future": "δείξω",
+        "aorist": "ἔδειξα",
+        "perfect": "δέδειχα",
+        "pluperfect": "ἐδεδείχειν"
+      },
+      "middle_passive": {
+        "present": "δείκνυμαι",
+        "imperfect": "ἐδεικνύμην",
+        "future": "δείξομαι, δειχθήσομαι",
+        "aorist": "ἐδειξάμην, ἐδείχθην",
+        "perfect": "δέδειγμαι",
+        "pluperfect": "ἐδεδείγμην"
+      }
+    },
+    "syntax": "+ αιτιατική, + κατηγ. μτχ., + ειδική / πλάγια ερωτηματική",
+    "stem": "δεικ-",
+    "cognates": "δείκτης, δείγμα, απόδειξη, ένδειξη, παράδειγμα",
+    "notes": "Βλ. δείκνυμι."
+  },
+  {
+    "id": "ethelo",
+    "lemma": "ἐθέλω/θέλω",
+    "translation": "θέλω",
+    "tenses": {
+      "active": {
+        "present": "ἐθέλω, θέλω",
+        "imperfect": "ἤθελον",
+        "future": "ἐθελήσω, θελήσω",
+        "aorist": "ἠθέλησα",
+        "perfect": "ἠθέληκα",
+        "pluperfect": "ἠθελήκειν"
+      }
+    },
+    "syntax": "+ αμετάβατο, + απαρέμφατο",
+    "stem": "(ε)θελ-",
+    "cognates": "θέληση, θεληματικός, εθελοντής, εθελούσιος, καλοθελητής",
+    "notes": "—"
+  },
+  {
+    "id": "eimi_go",
+    "lemma": "εἶμι",
+    "translation": "θα πάω",
+    "tenses": {
+      "active": {
+        "present": "εἶμι",
+        "imperfect": "ᾖα, ᾔειν",
+        "future": "—",
+        "aorist": "—",
+        "perfect": "—",
+        "pluperfect": "—"
+      }
+    },
+    "syntax": "+ αμετάβατο, + αιτιατική, + εμπρόθετος προσδιορισμός",
+    "stem": "ι-",
+    "cognates": "ιταμός, εισιτήριο, προσιτός, ανέφικτος, εξιτήριο, ισθμός, ανεξίτηλος",
+    "notes": "Το ρήμα εἶμι κλίνει τον Ενεστώτα και τον Παρατατικό κατά τα εις -μι."
+  },
+  {
+    "id": "epomai",
+    "lemma": "ἕπομαι",
+    "translation": "ακολουθώ",
+    "tenses": {
+      "middle_passive": {
+        "present": "ἕπομαι",
+        "imperfect": "εἱπόμην",
+        "future": "ἔψομαι",
+        "aorist": "ἑσπόμην (β')",
+        "perfect": "ἠκολούθηκα",
+        "pluperfect": "ἠκολουθήκειν"
+      }
+    },
+    "syntax": "+ δοτική",
+    "stem": "επ-, σπ-",
+    "cognates": "επόμενος, συνέπεια, παρεπόμενο",
+    "notes": "Αόριστος β': βλ. βάλλω."
+  },
+  {
+    "id": "erchomai",
+    "lemma": "ἔρχομαι",
+    "translation": "έρχομαι",
+    "tenses": {
+      "middle_passive": {
+        "present": "ἔρχομαι",
+        "imperfect": "ᾖα, ᾔειν",
+        "future": "εἶμι",
+        "aorist": "ἦλθον (β')",
+        "perfect": "ἐλήλυθα",
+        "pluperfect": "ἐληλύθειν"
+      }
+    },
+    "syntax": "+ αμετάβατο, + αιτιατική, + τελική μτχ.",
+    "stem": "ερχ-, ελευθ-, ελυθ-",
+    "cognates": "ερχομός, έλευση, προσέλευση, προέλευση",
+    "notes": "Ο Ενεστώτας δανείζεται όλες τις εγκλίσεις πλην της Οριστικής από το εἶμι. Αόριστος β': βλ. βάλλω. Προσοχή στο β' ενικό της Προστακτικής του Αορίστου β' κατεβάζει τον τόνο: ἐλθέ."
+  },
+  {
+    "id": "eurisko",
+    "lemma": "εὑρίσκω",
+    "translation": "βρίσκω",
+    "tenses": {
+      "active": {
+        "present": "εὑρίσκω",
+        "imperfect": "εὕρισκον, ηὕρισκον",
+        "future": "εὑρήσω",
+        "aorist": "εὗρον, ηὗρον",
+        "perfect": "εὕρηκα, ηὕρηκα",
+        "pluperfect": "εὑρήκειν, ηὑρήκειν"
+      },
+      "middle_passive": {
+        "present": "εὑρίσκομαι",
+        "imperfect": "εὑρισκόμην, ηὑρισκόμην",
+        "future": "εὑρήσομαι",
+        "aorist": "εὑρόμην, ηὑρόμην, εὑρέθην, ηὑρέθην",
+        "perfect": "εὕρημαι, ηὕρημαι",
+        "pluperfect": "εὑρήμην, ηὑρήμην"
+      }
+    },
+    "syntax": "+ αιτιατική, + αιτιατική & δοτική, + κατηγ. μτχ., + πλάγια ερωτηματική, + αιτιατική & εμπρόθετος προσδιορισμός",
+    "stem": "εὑρ-, εὑρε-, εὑρισκ-, εὑρη-",
+    "cognates": "εύρημα, εφεύρεση, ευρετήριο",
+    "notes": "Αόριστος β': βλ. βάλλω. Στο β' ενικό της Προστακτικής του Ενεργητικού Αόριστου β' κατεβάζει τον τόνο: εὑρέ."
+  },
+  {
+    "id": "echo",
+    "lemma": "ἔχω",
+    "translation": "έχω, βρίσκομαι σε κατάσταση",
+    "tenses": {
+      "active": {
+        "present": "ἔχω",
+        "imperfect": "εἶχον",
+        "future": "ἕξω, σχήσω",
+        "aorist": "ἔσχον (β')",
+        "perfect": "ἔσχηκα",
+        "pluperfect": "ἐσχήκειν"
+      },
+      "middle_passive": {
+        "present": "ἔχομαι",
+        "imperfect": "εἰχόμην",
+        "future": "ἕξομαι, -σχήσομαι",
+        "aorist": "ἐσχόμην",
+        "perfect": "-έσχημαι",
+        "pluperfect": "-εσχήμην"
+      }
+    },
+    "syntax": "+ αιτιατική, + απαρέμφατο, + αιτιατική & εμπρόθετος προσδιορισμός",
+    "stem": "σεχ-, εχ-, σχ-, σχε-, σχη-",
+    "cognates": "κατοχή, σχήμα, σχέση, σχολείο, ανακωχή, έξη, ευεξία",
+    "notes": "Ενεργητικός Αόριστος β': στην Ευκτική χρησιμοποιεί τον τύπο σχοίην, όταν είναι απλό, και –σχοίμι, όταν είναι σύνθετο. Στα σύνθετα του αορίστου β' ο τόνος δεν ανεβαίνει."
+  },
+  {
+    "id": "hegeomai",
+    "lemma": "ἡγέομαι-οῦμαι",
+    "translation": "άρχω, οδηγώ, νομίζω",
+    "tenses": {
+      "middle_passive": {
+        "present": "ἡγέομαι, -οῦμαι",
+        "imperfect": "ἡγούμην",
+        "future": "ἡγήσομαι, ἡγηθήσομαι",
+        "aorist": "ἡγησάμην, ἡγήθην",
+        "perfect": "ἥγημαι",
+        "pluperfect": "ἡγήμην"
+      }
+    },
+    "syntax": "+ αμετάβατο, + δοτική προσωπική, + γενική, + ειδική πρόταση, + δύο αιτιατικές",
+    "stem": "ἡγε-, ἡγη-, ἡγ-",
+    "cognates": "ηγέτης, ηγεσία, διήγημα, καθηγητής, αρχηγός",
+    "notes": "Βλ. ποιέω, -ῶ."
+  },
+  {
+    "id": "iemi",
+    "lemma": "ἵημι",
+    "translation": "ρίχνω, πετάω μακριά",
+    "tenses": {
+      "active": {
+        "present": "ἵημι",
+        "imperfect": "ἵην",
+        "future": "ἥσω",
+        "aorist": "ἧκα",
+        "perfect": "εἷκα",
+        "pluperfect": "εἵκειν"
+      },
+      "middle_passive": {
+        "present": "ἵεμαι",
+        "imperfect": "ἱέμην",
+        "future": "ἥσομαι, ἑθήσομαι",
+        "aorist": "εἵμην, εἵθην",
+        "perfect": "εἷμαι",
+        "pluperfect": "εἵμην"
+      }
+    },
+    "syntax": "+ αιτιατική",
+    "stem": "ἑ-, ἡ-",
+    "cognates": "άνεση, άφεση, έφεση, σύνεση, καθετήρας, αφετηρία, ένεση",
+    "notes": "Βλ. ἵημι."
+  },
+  {
+    "id": "lambano",
+    "lemma": "λαμβάνω",
+    "translation": "παίρνω",
+    "tenses": {
+      "active": {
+        "present": "λαμβάνω",
+        "imperfect": "ἐλάμβανον",
+        "future": "λήψομαι",
+        "aorist": "ἔλαβον (β΄)",
+        "perfect": "εἴληφα",
+        "pluperfect": "εἰλήφειν"
+      },
+      "middle_passive": {
+        "present": "λαμβάνομαι",
+        "imperfect": "ἐλαμβανόμην",
+        "future": "ληφθήσομαι",
+        "aorist": "ἐλαβόμην (β'), ἐλήφθην",
+        "perfect": "εἴλημμαι",
+        "pluperfect": "εἰλήμμην"
+      }
+    },
+    "syntax": "+ αιτιατική, + δύο αιτιατικές, + γενική, + δοτική, + εμπρόθετος προσδιορισμός",
+    "stem": "λαβ-, ληβ-, ληφ-",
+    "cognates": "λαβή, λήψη, ανάληψη, παραλαβή, εργολάβος, σύλληψη, λάφυρα",
+    "notes": "Αόριστος β': βλ. βάλλω. Προσοχή στο β΄ ενικό της Προστακτικής Ενεργητικού Αορ. β΄ κατεβάζει τον τόνο: λαβέ. Παρακείμενος, Υπερσυντέλικος: βλ. γράφω."
+  },
+  {
+    "id": "lego",
+    "lemma": "λέγω",
+    "translation": "λέω, μιλάω",
+    "tenses": {
+      "active": {
+        "present": "λέγω",
+        "imperfect": "ἔλεγον",
+        "future": "λέξω, ἐρῶ",
+        "aorist": "ἔλεξα, εἶπα, εἶπον (β΄)",
+        "perfect": "εἴρηκα",
+        "pluperfect": "εἰρήκειν"
+      },
+      "middle_passive": {
+        "present": "λέγομαι",
+        "imperfect": "ἐλεγόμην",
+        "future": "λεχθήσομαι, ῥηθήσομαι",
+        "aorist": "ἐλέχθην, ἐρρήθην",
+        "perfect": "εἴρημαι, λέλεγμαι",
+        "pluperfect": "εἰρήμην, ἐλελέγμην"
+      }
+    },
+    "syntax": "+ αιτιατική, + δύο αιτιατικές, + δοτική & αιτιατική, + ειδική πρόταση, + ειδικό/τελικό απαρέμφατο",
+    "stem": "λεγ-, λογ-, ῥε-, ῥη-, ειπ-, ερε-, ερη-",
+    "cognates": "λόγος, ρήτορας, ρήμα, έπος, επικός, απόρρητος, λεξικό, ρήση, εκλεκτός",
+    "notes": "Βλ. πράττω. ἐρῶ: βλ. αἴρω. Αόριστος β΄: βλ. βάλλω. Προσοχή στο β' ενικό της προστακτικής του Αορ. β΄ κατεβάζει τον τόνο: εἰπέ."
+  },
+  {
+    "id": "lanthano",
+    "lemma": "λανθάνω",
+    "translation": "μένω απαρατήρητος",
+    "tenses": {
+      "active": {
+        "present": "λανθάνω",
+        "imperfect": "ἐλάνθανον",
+        "future": "λήσω",
+        "aorist": "ἔλαθον",
+        "perfect": "λέληθα",
+        "pluperfect": "ἐλελήθειν"
+      }
+    },
+    "syntax": "+ αιτιατική, + ειδική πρόταση, + πλάγια ερωτηματική, + κατηγ. μτχ.",
+    "stem": "λαθ-, ληθ-",
+    "cognates": "λάθος, λήθη, αλήθεια, λαθραίος, αλάνθαστος",
+    "notes": "Αόριστος β΄: βλ. βάλλω."
+  },
+  {
+    "id": "manthano",
+    "lemma": "μανθάνω",
+    "translation": "μαθαίνω",
+    "tenses": {
+      "active": {
+        "present": "μανθάνω",
+        "imperfect": "ἐμάνθανον",
+        "future": "μαθήσομαι",
+        "aorist": "ἔμαθον (β΄)",
+        "perfect": "μεμάθηκα",
+        "pluperfect": "ἐμεμαθήκειν"
+      }
+    },
+    "syntax": "+ αιτιατική, + αιτιατική & γενική, + εμπρόθετος προσδιορισμός, + ειδική πρόταση, + κατηγ. μτχ.",
+    "stem": "μαθ-, μαθη-, μαθε-",
+    "cognates": "μάθημα, μαθητής, μάθηση, μαθηματικά, πολυμαθής",
+    "notes": "Αόριστος β': βλ. βάλλω."
+  },
+  {
+    "id": "machomai",
+    "lemma": "μάχομαι",
+    "translation": "πολεμώ, αγωνίζομαι",
+    "tenses": {
+      "middle_passive": {
+        "present": "μάχομαι",
+        "imperfect": "ἐμαχόμην",
+        "future": "μαχοῦμαι",
+        "aorist": "ἐμαχεσάμην",
+        "perfect": "μεμάχημαι",
+        "pluperfect": "ἐμεμαχήμην"
+      }
+    },
+    "syntax": "+ δοτική, + αιτιατική, + εμπρόθετος προσδιορισμός",
+    "stem": "μαχ-, μαχε-",
+    "cognates": "μάχη, μαχητής, μαχητικός, άμαχος, ακαταμάχητος",
+    "notes": "Μέλλοντας: βλ. ἀγγέλλω."
+  },
+  {
+    "id": "oida",
+    "lemma": "οἶδα",
+    "translation": "γνωρίζω",
+    "tenses": {
+      "active": {
+        "present": "οἶδα",
+        "imperfect": "ᾔδειν, ᾔδη",
+        "future": "εἴσομαι, εἰδήσω",
+        "aorist": "(ἔγνων)",
+        "perfect": "(ἔγνωκα)",
+        "pluperfect": "(ἐγνώκειν)"
+      }
+    },
+    "syntax": "+ αιτιατική, + κατηγ. μτχ., + ειδική / πλάγια ερωτηματική πρόταση",
+    "stem": "ιδ-, ειδ-, οιδ-",
+    "cognates": "ιδέα, είδος, είδηση, σύνοιδα, αναιδής, είδωλο, ιστορία",
+    "notes": "Δες πώς κλίνεται! (ανώμαλο ρήμα με ιδιαίτερη κλίση)"
+  },
+  {
+    "id": "horao",
+    "lemma": "ὁράω-ῶ",
+    "translation": "βλέπω",
+    "tenses": {
+      "active": {
+        "present": "ὁράω, -ῶ",
+        "imperfect": "ἑώρων",
+        "future": "ὄψομαι",
+        "aorist": "εἶδον (β')",
+        "perfect": "ἑόρακα, ἑώρακα, ὄπωπα (ποιητ.)",
+        "pluperfect": "ἑωράκειν"
+      },
+      "middle_passive": {
+        "present": "ὁράομαι, -ῶμαι",
+        "imperfect": "ἑωρώμην",
+        "future": "ὀφθήσομαι",
+        "aorist": "εἰδόμην (β΄), ὤφθην",
+        "perfect": "ἑόραμαι, ἑώραμαι, ὦμμαι",
+        "pluperfect": "(ἑωράμην), ὤμμην"
+      }
+    },
+    "syntax": "+ αιτιατική, + κατηγ. μτχ., + ονοματικές προτάσεις, + εμπρόθετος προσδιορισμός",
+    "stem": "ορα-, οπ-, ιδ-, ειδ-",
+    "cognates": "όραση, ορατός, όψη, οπτικός, ιδέα, είδος, ύποπτος, επόπτης",
+    "notes": "Βλ. τιμάω, -ῶ. Αόριστος β΄: βλ. βάλλω. Προσοχή στο β' ενικό της προστακτικής του Αορ. β΄ κατεβάζει τον τόνο: ἰδέ. ὦμμαι, ὤμμην: βλ. γράφω."
+  },
+  {
+    "id": "pratto",
+    "lemma": "πράττω",
+    "translation": "κάνω",
+    "tenses": {
+      "active": {
+        "present": "πράττω",
+        "imperfect": "ἔπραττον",
+        "future": "πράξω",
+        "aorist": "ἔπραξα",
+        "perfect": "πέπραχα, πέπραγα",
+        "pluperfect": "ἐπεπράχειν, ἐπεπράγειν"
+      },
+      "middle_passive": {
+        "present": "πράττομαι",
+        "imperfect": "ἐπραττόμην",
+        "future": "πράξομαι, πραχθήσομαι",
+        "aorist": "ἐπραξάμην, ἐπράχθην",
+        "perfect": "πέπραγμαι",
+        "pluperfect": "ἐπεπράγμην"
+      }
+    },
+    "syntax": "+ αιτιατική, + δύο αιτιατικές, + δοτική & αιτιατική, + αιτιατική & εμπρόθετος προσδιορισμός",
+    "stem": "πραγ-, πραχ-, πρακτ-",
+    "cognates": "πράξη, πράγμα, πρακτικός",
+    "notes": "Βλ. πράττω."
+  },
+  {
+    "id": "tithemi",
+    "lemma": "τίθημι",
+    "translation": "θέτω",
+    "tenses": {
+      "active": {
+        "present": "τίθημι",
+        "imperfect": "ἐτίθην",
+        "future": "θήσω",
+        "aorist": "ἔθηκα",
+        "perfect": "τέθηκα, τέθεικα",
+        "pluperfect": "ἐτεθήκειν, ἐτεθείκειν"
+      },
+      "middle_passive": {
+        "present": "τίθεμαι",
+        "imperfect": "ἐτιθέμην",
+        "future": "θήσομαι, τεθήσομαι",
+        "aorist": "ἐθέμην, ἐτέθην",
+        "perfect": "τέθειμαι, κεῖμαι",
+        "pluperfect": "ἐτεθείμην, ἐκείμην"
+      }
+    },
+    "syntax": "+ αιτιατική, + δύο αιτιατικές, + δοτική & αιτιατική, + αιτιατική & εμπρόθετος προσδιορισμός, + αιτιατική & γενική κατηγορηματική, + απαρέμφατο",
+    "stem": "θε-, θη-",
+    "cognates": "θέση, θήκη, συνθέτης, θετός, αδιάθετος",
+    "notes": "Βλ. τίθημι."
+  },
+  {
+    "id": "phaino",
+    "lemma": "φαίνω",
+    "translation": "φανερώνω",
+    "tenses": {
+      "active": {
+        "present": "φαίνω",
+        "imperfect": "ἔφαινον",
+        "future": "φανῶ",
+        "aorist": "ἔφηνα",
+        "perfect": "πέφαγκα, πέφηνα, πέφασμαι",
+        "pluperfect": "ἐπεφάγκειν, ἐπεφήνειν, ἐπεφάσμην"
+      },
+      "middle_passive": {
+        "present": "φαίνομαι",
+        "imperfect": "ἐφαινόμην",
+        "future": "φανοῦμαι, φανήσομαι",
+        "aorist": "εφηνάμην, ἐφάνθην, ἐφάνην",
+        "perfect": "πέφασμαι",
+        "pluperfect": "ἐπεφάσμην"
+      }
+    },
+    "syntax": "+ αιτιατική, + αιτιατική & δοτική, + κατηγ. μτχ., + απαρέμφατο",
+    "stem": "φαν-, φην-",
+    "cognates": "φαινόμενο, φανερός, άφαντος, φάσμα, έμφαση",
+    "notes": "Βλ. φαίνω."
+  },
+  {
+    "id": "phero",
+    "lemma": "φέρω",
+    "translation": "κουβαλώ, φέρω, παράγω",
+    "tenses": {
+      "active": {
+        "present": "φέρω",
+        "imperfect": "ἔφερον",
+        "future": "οἴσω",
+        "aorist": "ἤνεγκα, ἤνεγκον (β΄)",
+        "perfect": "ἐνήνοχα",
+        "pluperfect": "ἐνηνόχειν"
+      },
+      "middle_passive": {
+        "present": "φέρομαι",
+        "imperfect": "ἐφερόμην",
+        "future": "οἴσομαι, οἰσθήσομαι, ἐνεχθήσομαι",
+        "aorist": "ἠνεγκάμην, ἠνεγκόμην (β'), ἠνέχθην",
+        "perfect": "ἐνήνεγμαι",
+        "pluperfect": "ἐνηνέγμην"
+      }
+    },
+    "syntax": "+ αιτιατική, + αιτιατική & δοτική, + εμπρόθετος προσδιορισμός",
+    "stem": "φερ-, φορ-, φωρ-, φαρ-, οι-, ενεκ-",
+    "cognates": "φορά, φόρος, φαρέτρα, διένεξη, προφορά, οισοφάγος",
+    "notes": "Αόριστος β΄: βλ. βάλλω."
+  },
+  {
+    "id": "phimi",
+    "lemma": "φημί",
+    "translation": "λέω, ισχυρίζομαι",
+    "tenses": {
+      "middle_passive": {
+        "present": "φημί",
+        "imperfect": "ἔφην",
+        "future": "φήσω",
+        "aorist": "ἔφησα",
+        "perfect": "εἴρηκα",
+        "pluperfect": "ειρήκειν"
+      }
+    },
+    "syntax": "+ ειδικό απαρέμφατο, + αιτιατική",
+    "stem": "φα-, φη-, φω-",
+    "cognates": "φήμη, φάση, προφήτης, άφατος, φωνή, απόφαση",
+    "notes": "Ανώμαλο ρήμα σε -μι, με ιδιαίτερη κλίση στην Οριστική."
+  }
+];
+
+// Σειρά ημερών 1-30 (η ημέρα 31 είναι ημέρα επανάληψης / τελικού κουίζ)
+const DAY_ORDER = VERBS.map(v => v.id);
+
+const CHALLENGE_START = '2026-07-01';
+const CHALLENGE_END = '2026-07-31';
+</script>
+<script>
+// ============================================================
+// Ρηματικό Καλοκαίρι — Stamenou Education
+// Διαδραστική εφαρμογή επανάληψης 30 ρημάτων Αρχαίας Ελληνικής
+// ============================================================
+
+const root = document.getElementById('root');
+const STORE_KEY_PREFIX = 'rk2026';
+const ADMIN_PIN = '4521'; // μυστικός κωδικός πρόσβασης στον Πίνακα Ελέγχου
+
+let TOAST_TIMER = null;
+
+// ---------- small utilities ----------
+function escapeHtml(s){
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function norm(str){
+  // accent / case tolerant comparison for quiz answers
+  return String(str || '')
+    .toLowerCase()
+    .replace(/\([^)]*\)/g,'') // strip parenthetical notes like (-ὲω), (β'), (μτγν.)
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'') // strip accents
+    .replace(/ς/g,'σ')
+    .replace(/[\s\-'’,.]/g,'')
+    .trim();
+}
+function todayStr(){
+  const d = new Date();
+  return d.toISOString().slice(0,10);
+}
+function dayIndexForToday(){
+  // Returns 1-31 representing which challenge day "today" maps to,
+  // purely for display purposes (countdown / streak context).
+  const start = new Date('2026-07-01T00:00:00');
+  const now = new Date();
+  const diff = Math.floor((now - start) / 86400000) + 1;
+  if (diff < 1) return 0;
+  if (diff > 31) return 31;
+  return diff;
+}
+function showToast(msg){
+  let t = document.querySelector('.toast');
+  if(!t){
+    t = document.createElement('div');
+    t.className='toast';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(TOAST_TIMER);
+  TOAST_TIMER = setTimeout(()=> t.classList.remove('show'), 2200);
+}
+
+// ---------- SVG icon set (inline, brand-consistent) ----------
+const ICONS = {
+  leafMark: `<svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M24 6C16 10 10 18 10 27c0 7 4.5 12 14 15 9.5-3 14-8 14-15 0-9-6-17-14-21Z" fill="#7A9471"/><path d="M24 11v27" stroke="#FAF7F0" stroke-width="1.4" stroke-linecap="round"/><path d="M24 17c-3 1-5.5 3-7 6M24 24c3 1 5.5 3 7 6M24 30c-2.6.9-4.7 2.4-6 4.6" stroke="#FAF7F0" stroke-width="1.2" stroke-linecap="round"/></svg>`,
+  fire: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2c1 3-3 4-3 8 0 1.5.8 2.5 2 2.5 0-1.5 1-2 1-3.3 1.8 1 3 3 3 5.3 0 3.6-2.7 6.5-6 6.5s-6-2.9-6-6.5C3 9.5 7 7 8 2c1.2 2 1.6 4-.5 6.2C9 6.5 10.6 4.3 12 2Z" fill="#C17F59"/></svg>`,
+  fireOutline: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2c1 3-3 4-3 8 0 1.5.8 2.5 2 2.5 0-1.5 1-2 1-3.3 1.8 1 3 3 3 5.3 0 3.6-2.7 6.5-6 6.5s-6-2.9-6-6.5C3 9.5 7 7 8 2c1.2 2 1.6 4-.5 6.2C9 6.5 10.6 4.3 12 2Z" stroke="#c9c9b8" stroke-width="1.4" fill="none"/></svg>`,
+  star: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3l2.6 5.9 6.4.6-4.8 4.3 1.4 6.3L12 16.9 6.4 20.1l1.4-6.3-4.8-4.3 6.4-.6L12 3z" fill="#D6A24C"/></svg>`,
+  check: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="11" fill="#7FAE5C"/><path d="M7 12.5l3.2 3.2L17 9" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  cross: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="11" fill="#D4806B"/><path d="M8.5 8.5l7 7M15.5 8.5l-7 7" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></svg>`,
+  lock: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="10" width="14" height="10" rx="2.5" fill="#9a9a8a"/><path d="M8 10V7.5a4 4 0 018 0V10" stroke="#9a9a8a" stroke-width="1.8" fill="none"/></svg>`,
+  back: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 5l-7 7 7 7" stroke="#2B2E26" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  home: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 11.5L12 4l8 7.5M6 10v9h12v-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>`,
+  book: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 5.5C4 4.7 4.7 4 5.5 4H11v16H5.5A1.5 1.5 0 014 18.5v-13zM20 5.5c0-.8-.7-1.5-1.5-1.5H13v16h5.5a1.5 1.5 0 001.5-1.5v-13z" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linejoin="round"/></svg>`,
+  trophy: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 4h10v5a5 5 0 01-10 0V4z" stroke="currentColor" stroke-width="1.7" fill="none"/><path d="M7 5H4v2a3 3 0 003 3M17 5h3v2a3 3 0 01-3 3" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round"/><path d="M10 14v2.5h4V14M9 20h6M12 16.5V20" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>`,
+  logout: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>`,
+  laurelBig: `<svg viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="#7A9471" stroke-width="3" stroke-linecap="round" fill="none">
+      <path d="M70 20c-16 14-24 34-24 56" />
+      <path d="M46 38c-6 2-12 6-15 11M44 52c-6 1-13 4-17 9M46 66c-6 0-13 2-18 6M52 78c-5 0-11 1-16 4"/>
+    </g>
+    <g stroke="#C17F59" stroke-width="3" stroke-linecap="round" fill="none">
+      <path d="M70 20c16 14 24 34 24 56" />
+      <path d="M94 38c6 2 12 6 15 11M96 52c6 1 13 4 17 9M94 66c6 0 13 2 18 6M88 78c5 0 11 1 16 4"/>
+    </g>
+    <circle cx="70" cy="78" r="3" fill="#D6A24C"/>
+  </svg>`,
+  trophyBurst: `<svg viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="70" cy="70" r="46" fill="#F1ECE0"/>
+    <path d="M52 50h36v18a18 18 0 01-36 0V50z" fill="#D6A24C"/>
+    <path d="M52 52H40v8a12 12 0 0012 12M88 52h12v8a12 12 0 01-12 12" stroke="#D6A24C" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <rect x="62" y="86" width="16" height="10" fill="#C17F59"/>
+    <rect x="54" y="96" width="32" height="6" rx="2" fill="#C17F59"/>
+    <g stroke="#7A9471" stroke-width="2.5" stroke-linecap="round">
+      <path d="M30 30l6 6M110 30l-6 6M24 70h8M108 70h8M34 108l5-5M106 108l-5-5"/>
+    </g>
+  </svg>`,
+};
+
+// ---------- persistent storage (Google Apps Script backend) ----------
+// ΣΗΜΑΝΤΙΚΟ: Βάλε εδώ το "Web app URL" που σου έδωσε το Google Apps Script
+// μετά το Deploy (βλ. οδηγίες εγκατάστασης). Χωρίς αυτό, η εφαρμογή δεν
+// μπορεί να αποθηκεύσει/διαβάσει μαθητές.
+const API_URL = 'https://script.google.com/macros/s/AKfycbwreFZvB-GZXy6-s092uoPxk1-gixUPDpOkiztbjgYwSmlvsWgvUHEHkjL3d8gy3opl/exec';
+
+async function apiGet(params){
+  const url = API_URL + '?' + new URLSearchParams(params).toString();
+  const res = await fetch(url);
+  return res.json();
+}
+async function apiPost(payload){
+  const res = await fetch(API_URL, {
+    method: 'POST',
+    headers: {'Content-Type':'text/plain;charset=utf-8'}, // avoids CORS preflight on Apps Script
+    body: JSON.stringify(payload),
+  });
+  return res.json();
+}
+
+// ---------- app state ----------
+const state = {
+  screen: 'boot', // boot | login | home | verb | quiz | dayComplete | admin
+  student: null,  // {name, pinHash, ...progress}
+  currentVerbId: null,
+  quiz: null,     // active quiz session object
+  adminUnlocked: false,
+  adminTab: 'students',
+  studentsCache: [],
+};
+
+function defaultProgress(){
+  return {
+    name: '',
+    pin: '',
+    createdAt: todayStr(),
+    streak: 0,
+    lastActiveDate: null,
+    totalCorrect: 0,
+    totalAttempts: 0,
+    completedVerbIds: [],   // verbs the student has finished the quiz for, ever
+    viewedVerbIds: [],      // verbs opened/studied
+    dayLog: {},             // { '2026-07-01': {verbsDone:[...], correct, attempts} }
+    badges: [],
+  };
+}
+
+async function loadStudent(name){
+  if(API_URL.includes('PASTE_YOUR_APPS_SCRIPT')){
+    showToast('⚠️ Δεν έχει ρυθμιστεί ακόμα η σύνδεση με το Google Sheet.');
+    return null;
+  }
+  try{
+    const r = await apiGet({ action: 'getStudent', name });
+    return r.ok ? r.student : null;
+  }catch(e){
+    showToast('Πρόβλημα σύνδεσης. Δοκίμασε ξανά.');
+    return null;
+  }
+}
+async function saveStudent(student){
+  if(API_URL.includes('PASTE_YOUR_APPS_SCRIPT')) return false;
+  try{
+    const r = await apiPost({ action: 'saveStudent', student });
+    return !!r.ok;
+  }catch(e){
+    console.error('saveStudent failed', e);
+    return false;
+  }
+}
+async function createStudentRemote(name, pin){
+  const r = await apiPost({ action: 'createStudent', name, pin });
+  return r; // {ok, student} or {ok:false, error}
+}
+
+// ============================================================
+// RENDER: root dispatcher
+// ============================================================
+function render(){
+  if(state.screen === 'boot') return renderBoot();
+  if(state.screen === 'login') return renderLogin();
+  if(state.screen === 'home') return renderHome();
+  if(state.screen === 'verb') return renderVerbDetail();
+  if(state.screen === 'quiz') return renderQuiz();
+  if(state.screen === 'dayComplete') return renderDayComplete();
+  if(state.screen === 'admin') return renderAdmin();
+}
+
+function renderBoot(){
+  root.innerHTML = `
+    <div class="boot">
+      <div class="boot-leaf">${ICONS.leafMark}</div>
+      <p>Φορτώνει το Ρηματικό Καλοκαίρι…</p>
+    </div>`;
+}
+
+// ============================================================
+// LOGIN
+// ============================================================
+function renderLogin(loginError){
+  root.innerHTML = `
+    <div class="login-wrap">
+      <div class="login-mark">${ICONS.leafMark}</div>
+      <div class="login-title">Ρηματικό<br>Καλοκαίρι</div>
+      <div class="login-sub">30 ρήματα · 1–31 Ιουλίου</div>
+      <div class="login-dates">Λίγα λεπτά τη μέρα — κάθε παιδί μπορεί.</div>
+
+      <div class="login-card">
+        ${loginError ? `<div class="login-error">${escapeHtml(loginError)}</div>` : ''}
+        <div>
+          <label class="field-label">Το όνομά σου</label>
+          <input id="loginName" class="field-input" type="text" placeholder="π.χ. Άννα" autocomplete="off">
+        </div>
+        <div>
+          <label class="field-label">Ο προσωπικός σου κωδικός</label>
+          <input id="loginPin" class="field-input pin" type="tel" inputmode="numeric" maxlength="4" placeholder="••••" autocomplete="off">
+        </div>
+        <button id="loginBtn" class="btn btn-primary btn-block">Μπες στο παιχνίδι 🌿</button>
+        <button id="newStudentBtn" class="btn btn-ghost btn-block">Πρώτη φορά εδώ; Δημιουργία λογαριασμού</button>
+      </div>
+      <div class="login-foot">Stamenou Education · κάθε παιδί μπορεί</div>
+    </div>
+    <div class="admin-hatch" id="adminHatch" title="">${ICONS.lock}</div>
+  `;
+
+  document.getElementById('loginBtn').onclick = handleLogin;
+  document.getElementById('newStudentBtn').onclick = handleNewStudent;
+  document.getElementById('loginPin').addEventListener('keydown', e=>{ if(e.key==='Enter') handleLogin(); });
+  document.getElementById('loginName').addEventListener('keydown', e=>{ if(e.key==='Enter') document.getElementById('loginPin').focus(); });
+  document.getElementById('adminHatch').onclick = openAdminGate;
+}
+
+async function handleLogin(){
+  const name = document.getElementById('loginName').value.trim();
+  const pin = document.getElementById('loginPin').value.trim();
+  if(!name || !pin){ renderLogin('Συμπλήρωσε όνομα και κωδικό.'); return; }
+  const student = await loadStudent(name);
+  if(!student){ renderLogin('Δεν βρέθηκε μαθητής με αυτό το όνομα. Δημιούργησε λογαριασμό παρακάτω.'); return; }
+  if(student.pin !== pin){ renderLogin('Λάθος κωδικός. Δοκίμασε ξανά.'); return; }
+  await onLoginSuccess(student);
+}
+
+async function handleNewStudent(){
+  const name = document.getElementById('loginName').value.trim();
+  const pin = document.getElementById('loginPin').value.trim();
+  if(!name || !pin){ renderLogin('Γράψε το όνομά σου και έναν 4-ψήφιο κωδικό για να ξεκινήσεις.'); return; }
+  if(pin.length < 4){ renderLogin('Ο κωδικός πρέπει να έχει 4 ψηφία.'); return; }
+  const result = await createStudentRemote(name, pin);
+  if(!result.ok){ renderLogin(result.error || 'Κάτι πήγε στραβά. Δοκίμασε ξανά.'); return; }
+  await onLoginSuccess(result.student);
+}
+
+async function onLoginSuccess(student){
+  state.student = student;
+  await applyStreakLogic(student);
+  state.screen = 'home';
+  render();
+}
+
+// streak logic: if last active was yesterday -> +1; if today already -> unchanged; else reset to 1
+async function applyStreakLogic(student){
+  const today = todayStr();
+  if(student.lastActiveDate === today) return; // already counted today
+  const y = new Date(); y.setDate(y.getDate()-1);
+  const yesterday = y.toISOString().slice(0,10);
+  if(student.lastActiveDate === yesterday){
+    student.streak += 1;
+  } else if (student.lastActiveDate === null){
+    student.streak = 0; // streak starts once first day is *completed*, not just logged in
+  } else {
+    student.streak = 0;
+  }
+  // do not set lastActiveDate yet — that happens on first completed verb of the day,
+  // to avoid inflating streaks just from logging in. Store a "seenToday" flag instead.
+  student._seenToday = true;
+  await saveStudent(student);
+}
+
+function logout(){
+  state.student = null;
+  state.screen = 'login';
+  render();
+}
+
+// ============================================================
+// HOME
+// ============================================================
+function verbStatus(student, verbId){
+  if(student.completedVerbIds.includes(verbId)) return 'mastered';
+  if(student.viewedVerbIds.includes(verbId)) return 'inprogress';
+  return 'new';
+}
+
+function renderHome(){
+  const s = state.student;
+  const day = dayIndexForToday();
+  const masteredCount = s.completedVerbIds.length;
+
+  const dayDots = [];
+  for(let i=1;i<=31;i++){
+    const cls = i < day ? (s.dayLog[dayKeyForIndex(i)] ? 'done' : '') : (i===day ? 'today' : '');
+    dayDots.push(`<div class="day-dot ${cls}"><span class="num">${i}</span></div>`);
+  }
+
+  const verbTiles = VERBS.map((v, idx)=>{
+    const status = verbStatus(s, v.id);
+    const cls = status === 'mastered' ? 'mastered' : '';
+    const dayTag = `Ημ. ${idx+1}`;
+    return `<button class="verb-tile ${cls}" data-verbid="${v.id}">
+      ${status==='mastered' ? `<div class="badge">${ICONS.star}</div>` : ''}
+      <div class="lemma">${escapeHtml(v.lemma)}</div>
+      <div class="day-tag">${dayTag}</div>
+    </button>`;
+  }).join('');
+
+  root.innerHTML = `
+    <div class="app">
+      <div class="topbar">
+        <div class="brand">
+          <div class="brand-mark">${ICONS.leafMark}</div>
+          <div class="brand-text">Ρηματικό<br><small>Stamenou Education</small></div>
+        </div>
+        <div class="topbar-stats">
+          <div class="pill streak">${ICONS.fire} ${s.streak}</div>
+          <div class="pill">${ICONS.star} ${masteredCount}</div>
+          <button class="logout-btn" id="logoutBtn">${ICONS.logout}</button>
+        </div>
+      </div>
+
+      <div class="screen">
+        <div class="hello">Καλώς ήρθες, ${escapeHtml(s.name)}! 👋</div>
+        <div class="hello-sub">Ημέρα ${Math.max(1,Math.min(day,31))} του Challenge · 1–31 Ιουλίου</div>
+
+        <div class="progress-ring-wrap">
+          ${progressRingSvg(masteredCount, VERBS.length)}
+          <div class="progress-ring-info">
+            <div class="big">${masteredCount} / ${VERBS.length}</div>
+            <div class="small">ρήματα έχεις κατακτήσει</div>
+          </div>
+        </div>
+
+        <div class="day-strip">${dayDots.join('')}</div>
+
+        <div class="section-title">Τα 30 ρήματα <span class="count">${masteredCount}/${VERBS.length} ✓</span></div>
+        <div class="verb-grid">${verbTiles}</div>
+      </div>
+
+      <div class="bottom-nav">
+        <div class="nav-item active">${ICONS.home}<span>Αρχική</span></div>
+        <div class="nav-item" id="navTrophy">${ICONS.trophy}<span>Πρόοδος</span></div>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('logoutBtn').onclick = logout;
+  document.querySelectorAll('.verb-tile').forEach(btn=>{
+    btn.onclick = ()=>{
+      state.currentVerbId = btn.dataset.verbid;
+      state.screen = 'verb';
+      render();
+    };
+  });
+  document.getElementById('navTrophy').onclick = ()=>{
+    showToast('Η σελίδα προόδου έρχεται σύντομα ✨');
+  };
+}
+
+function dayKeyForIndex(i){
+  // map challenge day index (1-31) to a calendar date string in July 2026
+  const d = new Date('2026-07-01T00:00:00');
+  d.setDate(d.getDate() + (i-1));
+  return d.toISOString().slice(0,10);
+}
+
+function progressRingSvg(done, total){
+  const pct = total ? done/total : 0;
+  const r = 26, c = 2*Math.PI*r;
+  const offset = c * (1-pct);
+  return `<svg class="progress-ring" viewBox="0 0 64 64">
+    <circle cx="32" cy="32" r="${r}" fill="none" stroke="#E4EBE0" stroke-width="7"/>
+    <circle cx="32" cy="32" r="${r}" fill="none" stroke="#7A9471" stroke-width="7"
+      stroke-dasharray="${c}" stroke-dashoffset="${offset}" stroke-linecap="round"
+      transform="rotate(-90 32 32)"/>
+    <text x="32" y="37" text-anchor="middle" font-size="15" font-weight="700" fill="#2B2E26" font-family="Cormorant Garamond, serif">${Math.round(pct*100)}%</text>
+  </svg>`;
+}
+
+// ============================================================
+// VERB DETAIL (study screen with horizontal tense carousel)
+// ============================================================
+const TENSE_LABELS = {
+  present: 'Ενεστώτας',
+  imperfect: 'Παρατατικός',
+  future: 'Μέλλοντας',
+  aorist: 'Αόριστος',
+  perfect: 'Παρακείμενος',
+  pluperfect: 'Υπερσυντέλικος',
+};
+const TENSE_ORDER = ['present','imperfect','future','aorist','perfect','pluperfect'];
+
+function renderVerbDetail(){
+  const v = VERBS.find(x=>x.id===state.currentVerbId);
+  const s = state.student;
+  if(!s.viewedVerbIds.includes(v.id)){
+    s.viewedVerbIds.push(v.id);
+    saveStudent(s);
+  }
+
+  const cards = TENSE_ORDER.map(tk=>{
+    const act = v.tenses.active ? v.tenses.active[tk] : null;
+    const mp = v.tenses.middle_passive ? v.tenses.middle_passive[tk] : null;
+    if(!act && !mp) return '';
+    let rows = '';
+    if(act) rows += `<div class="voice-row"><div class="vlabel">Ενεργητική</div><div class="vform">${escapeHtml(act)}</div></div>`;
+    if(mp) rows += `<div class="voice-row"><div class="vlabel">Μέση / Παθητική</div><div class="vform">${escapeHtml(mp)}</div></div>`;
+    return `<div class="tense-card" data-tense="${tk}">
+      <div class="tname">${TENSE_LABELS[tk]}</div>
+      ${rows}
+    </div>`;
+  }).filter(Boolean).join('');
+
+  const dotCount = TENSE_ORDER.filter(tk => (v.tenses.active && v.tenses.active[tk]) || (v.tenses.middle_passive && v.tenses.middle_passive[tk])).length;
+  const dots = Array.from({length:dotCount}).map((_,i)=>`<div class="dot ${i===0?'active':''}"></div>`).join('');
+
+  root.innerHTML = `
+    <div class="app">
+      <div class="screen">
+        <div class="vd-header">
+          <button class="back-btn" id="backBtn">${ICONS.back}</button>
+        </div>
+        <div class="vd-lemma">${escapeHtml(v.lemma)}</div>
+        <div class="vd-translation">${escapeHtml(v.translation)}</div>
+
+        <div class="fact-grid">
+          <div class="fact-box">
+            <div class="flabel">Σύνταξη</div>
+            <div class="fvalue">${escapeHtml(v.syntax)}</div>
+          </div>
+          <div class="fact-box">
+            <div class="flabel">Θέμα</div>
+            <div class="fvalue greek">${escapeHtml(v.stem)}</div>
+          </div>
+          <div class="fact-box full">
+            <div class="flabel">Ομόρριζα</div>
+            <div class="fvalue greek">${escapeHtml(v.cognates)}</div>
+          </div>
+          ${v.notes && v.notes !== '—' ? `<div class="fact-box full">
+            <div class="flabel">Σημειώσεις</div>
+            <div class="fvalue">${escapeHtml(v.notes)}</div>
+          </div>` : ''}
+        </div>
+
+        <div class="carousel-label">Δες πώς κλίνεται! 👉 σύρε για τους χρόνους</div>
+        <div class="dots-row">${dots}</div>
+        <div class="tense-carousel" id="carousel">${cards}</div>
+
+        <div class="cta-floating">
+          <button class="btn btn-sienna btn-block" id="startQuizBtn">Ξεκίνα το κουίζ 🪶</button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('backBtn').onclick = ()=>{ state.screen='home'; render(); };
+  document.getElementById('startQuizBtn').onclick = ()=> startQuiz(v.id);
+
+  const carousel = document.getElementById('carousel');
+  const dotsEls = document.querySelectorAll('.dots-row .dot');
+  carousel.addEventListener('scroll', ()=>{
+    const cardW = carousel.firstElementChild ? carousel.firstElementChild.getBoundingClientRect().width + 12 : 1;
+    const idx = Math.round(carousel.scrollLeft / cardW);
+    dotsEls.forEach((d,i)=> d.classList.toggle('active', i===idx));
+  });
+}
+
+// ============================================================
+// QUIZ ENGINE
+// ============================================================
+function buildQuizQuestions(verb){
+  const qs = [];
+  // Q1: translation (multiple choice)
+  const wrongTranslations = VERBS.filter(v=>v.id!==verb.id).map(v=>v.translation.split(',')[0].trim());
+  const distractors = shuffle(wrongTranslations).slice(0,3);
+  const options = shuffle([verb.translation.split(',')[0].trim(), ...distractors]);
+  qs.push({
+    type:'mc',
+    prompt: `Τι σημαίνει το <span class="hl">${escapeHtml(verb.lemma)}</span>;`,
+    options,
+    answer: verb.translation.split(',')[0].trim(),
+  });
+
+  // Q2: typed - present tense active (or middle if no active)
+  const activeForms = verb.tenses.active;
+  const mpForms = verb.tenses.middle_passive;
+  if(activeForms && activeForms.present && activeForms.present !== '—'){
+    qs.push({
+      type:'type',
+      prompt: `Γράψε τον <strong>Ενεστώτα</strong> (Ενεργ. Φωνή) του ρήματος «<span class="hl">${escapeHtml(verb.translation.split(',')[0].trim())}</span>»`,
+      answer: firstForm(activeForms.present),
+      acceptableAlternatives: allForms(activeForms.present),
+    });
+  } else if(mpForms && mpForms.present){
+    qs.push({
+      type:'type',
+      prompt: `Γράψε τον <strong>Ενεστώτα</strong> του ρήματος «<span class="hl">${escapeHtml(verb.translation.split(',')[0].trim())}</span>»`,
+      answer: firstForm(mpForms.present),
+      acceptableAlternatives: allForms(mpForms.present),
+    });
+  }
+
+  // Q3: typed - aorist (key principal part), prefer active, fallback middle/passive
+  let aoristForm = (activeForms && activeForms.aorist) || (mpForms && mpForms.aorist);
+  if(aoristForm && aoristForm !== '—'){
+    qs.push({
+      type:'type',
+      prompt: `Ποιος είναι ο <strong>Αόριστος</strong> του <span class="hl">${escapeHtml(verb.lemma)}</span>;`,
+      answer: firstForm(aoristForm),
+      acceptableAlternatives: allForms(aoristForm),
+    });
+  }
+
+  // Q4: stem (multiple choice against distractor stems)
+  const wrongStems = shuffle(VERBS.filter(v=>v.id!==verb.id).map(v=>firstForm(v.stem))).slice(0,3);
+  qs.push({
+    type:'mc',
+    prompt: `Ποιο είναι το <strong>θέμα</strong> του <span class="hl">${escapeHtml(verb.lemma)}</span>;`,
+    options: shuffle([firstForm(verb.stem), ...wrongStems]),
+    answer: firstForm(verb.stem),
+  });
+
+  // Q5: cognates recognition (multiple choice) - pick a real cognate vs distractors from other verbs
+  const realCognate = firstForm(verb.cognates);
+  const wrongCognates = shuffle(VERBS.filter(v=>v.id!==verb.id).map(v=>firstForm(v.cognates))).slice(0,3);
+  qs.push({
+    type:'mc',
+    prompt: `Ποια λέξη είναι <strong>ομόρριζη</strong> του <span class="hl">${escapeHtml(verb.lemma)}</span>;`,
+    options: shuffle([realCognate, ...wrongCognates]),
+    answer: realCognate,
+  });
+
+  return qs;
+}
+function firstForm(str){ return String(str||'').split(',')[0].replace(/\([^)]*\)/g,'').trim(); }
+function allForms(str){ return String(str||'').split(',').map(s=>s.trim()); }
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+function startQuiz(verbId){
+  const verb = VERBS.find(v=>v.id===verbId);
+  state.quiz = {
+    verb,
+    questions: buildQuizQuestions(verb),
+    index: 0,
+    correctCount: 0,
+    answered: false,
+  };
+  state.screen = 'quiz';
+  render();
+}
+
+function renderQuiz(){
+  const q = state.quiz;
+  const question = q.questions[q.index];
+  const pct = Math.round((q.index / q.questions.length) * 100);
+
+  let bodyHtml = '';
+  if(question.type === 'mc'){
+    bodyHtml = `<div class="quiz-options">
+      ${question.options.map(opt => `<button class="quiz-option" data-opt="${escapeHtml(opt)}">${escapeHtml(opt)}</button>`).join('')}
+    </div>`;
+  } else {
+    bodyHtml = `<div class="quiz-input-wrap">
+      <input id="quizInput" class="quiz-input" type="text" placeholder="…" autocomplete="off" autocapitalize="off" spellcheck="false">
+    </div>
+    <button class="btn btn-sienna btn-block" id="submitTypeBtn">Έλεγξε ✓</button>`;
+  }
+
+  root.innerHTML = `
+    <div class="app">
+      <div class="screen">
+        <div class="vd-header">
+          <button class="back-btn" id="quizBackBtn">${ICONS.back}</button>
+        </div>
+        <div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:${pct}%"></div></div>
+        <div class="quiz-q-label">Ερώτηση ${q.index+1} από ${q.questions.length}</div>
+        <div class="quiz-question">${question.prompt}</div>
+        ${bodyHtml}
+      </div>
+    </div>
+  `;
+
+  document.getElementById('quizBackBtn').onclick = ()=>{ state.screen='verb'; render(); };
+
+  if(question.type === 'mc'){
+    document.querySelectorAll('.quiz-option').forEach(btn=>{
+      btn.onclick = ()=> handleQuizAnswer(btn.dataset.opt, btn);
+    });
+  } else {
+    const input = document.getElementById('quizInput');
+    input.focus();
+    input.addEventListener('keydown', e=>{ if(e.key==='Enter') handleQuizAnswer(input.value, input); });
+    document.getElementById('submitTypeBtn').onclick = ()=> handleQuizAnswer(input.value, input);
+  }
+}
+
+function handleQuizAnswer(givenValue, el){
+  if(state.quiz.answered) return;
+  const q = state.quiz;
+  const question = q.questions[q.index];
+  let isCorrect = false;
+
+  if(question.type === 'mc'){
+    isCorrect = (givenValue === question.answer);
+    document.querySelectorAll('.quiz-option').forEach(btn=>{
+      btn.disabled = true;
+      if(btn.dataset.opt === question.answer) btn.classList.add('correct');
+      else if(btn.dataset.opt === givenValue && !isCorrect) btn.classList.add('wrong');
+    });
+  } else {
+    const alts = question.acceptableAlternatives || [question.answer];
+    isCorrect = alts.some(a => norm(a) === norm(givenValue));
+    el.classList.add(isCorrect ? 'correct' : 'wrong');
+    el.disabled = true;
+  }
+
+  q.answered = true;
+  if(isCorrect) q.correctCount += 1;
+
+  showFeedback(isCorrect, question);
+}
+
+function showFeedback(isCorrect, question){
+  const praises = ['Φανταστικά! 🌿','Το έμαθες! ✨','Άριστα! 🪶','Μπράβο σου! 🌟','Τέλειο!','Σπουδαία δουλειά!'];
+  const praise = praises[Math.floor(Math.random()*praises.length)];
+
+  let banner = document.querySelector('.feedback-banner');
+  if(!banner){
+    banner = document.createElement('div');
+    banner.className = 'feedback-banner';
+    document.body.appendChild(banner);
+  }
+  banner.className = `feedback-banner ${isCorrect ? 'ok':'bad'}`;
+  banner.innerHTML = `
+    <div class="feedback-left">
+      <div class="feedback-icon">${isCorrect ? ICONS.check : ICONS.cross}</div>
+      <div>
+        <div class="feedback-text">${isCorrect ? praise : 'Σχεδόν!'}</div>
+        ${!isCorrect ? `<div class="feedback-sub">Σωστό: ${escapeHtml(question.answer)}</div>` : ''}
+      </div>
+    </div>
+    <button class="btn ${isCorrect?'btn-primary':'btn-sienna'} btn-sm" id="continueBtn">Συνέχεια</button>
+  `;
+  requestAnimationFrame(()=> banner.classList.add('show'));
+  document.getElementById('continueBtn').onclick = nextQuizStep;
+
+  // small success sound cue via Web Audio (no external asset needed)
+  playTone(isCorrect);
+}
+
+function playTone(success){
+  try{
+    const ctx = new (window.AudioContext||window.webkitAudioContext)();
+    const o = ctx.createOscillator();
+    const g = ctx.createGain();
+    o.type = 'sine';
+    o.frequency.value = success ? 880 : 220;
+    g.gain.value = 0.06;
+    o.connect(g); g.connect(ctx.destination);
+    o.start();
+    g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + (success?0.35:0.25));
+    o.stop(ctx.currentTime + 0.4);
+  }catch(e){/* audio not critical */}
+}
+
+async function nextQuizStep(){
+  const banner = document.querySelector('.feedback-banner');
+  if(banner) banner.classList.remove('show');
+
+  const q = state.quiz;
+  q.answered = false;
+  q.index += 1;
+
+  if(q.index >= q.questions.length){
+    await finishQuiz();
+    return;
+  }
+  render();
+}
+
+async function finishQuiz(){
+  const q = state.quiz;
+  const s = state.student;
+  const passed = q.correctCount >= Math.ceil(q.questions.length * 0.6);
+
+  s.totalAttempts += q.questions.length;
+  s.totalCorrect += q.correctCount;
+
+  if(passed && !s.completedVerbIds.includes(q.verb.id)){
+    s.completedVerbIds.push(q.verb.id);
+  }
+
+  // streak + day log only counts once student actually completes a quiz
+  const today = todayStr();
+  if(!s.dayLog[today]) s.dayLog[today] = {verbsDone:[], correct:0, attempts:0};
+  if(!s.dayLog[today].verbsDone.includes(q.verb.id)) s.dayLog[today].verbsDone.push(q.verb.id);
+  s.dayLog[today].correct += q.correctCount;
+  s.dayLog[today].attempts += q.questions.length;
+
+  if(s.lastActiveDate !== today){
+    s.lastActiveDate = today;
+    if(s.streak === 0) s.streak = 1; // first completed day of a fresh streak
+  }
+
+  await saveStudent(s);
+  state.screen = 'dayComplete';
+  state.quiz.passed = passed;
+  render();
+}
+
+function renderDayComplete(){
+  const q = state.quiz;
+  const s = state.student;
+  root.innerHTML = `
+    <div class="app">
+      <div class="screen center complete-wrap">
+        <div class="complete-burst">${ICONS.trophyBurst}</div>
+        <div class="complete-title">${q.passed ? 'Το κατέκτησες!' : 'Καλή προσπάθεια!'}</div>
+        <div class="complete-sub">${q.passed
+          ? `Έμαθες το <strong>${escapeHtml(q.verb.lemma)}</strong>. Συνέχισε έτσι, ${escapeHtml(s.name)}!`
+          : `Το <strong>${escapeHtml(q.verb.lemma)}</strong> θέλει λίγη ακόμα εξάσκηση. Δοκίμασε ξανά όποτε θες!`}</div>
+        <div class="complete-stats">
+          <div class="cstat"><div class="cval">${q.correctCount}/${q.questions.length}</div><div class="clabel">Σωστές</div></div>
+          <div class="cstat"><div class="cval">${s.streak}</div><div class="clabel">Συνέχεια 🔥</div></div>
+          <div class="cstat"><div class="cval">${s.completedVerbIds.length}</div><div class="clabel">Σύνολο</div></div>
+        </div>
+        <button class="btn btn-primary btn-block" id="toHomeBtn" style="max-width:300px;">Συνέχεια</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('toHomeBtn').onclick = ()=>{ state.screen='home'; render(); };
+}
+
+// ============================================================
+// ADMIN PANEL
+// ============================================================
+function openAdminGate(){
+  const pin = prompt('Κωδικός πρόσβασης Πίνακα Ελέγχου:');
+  if(pin === null) return;
+  if(pin === ADMIN_PIN){
+    state.adminUnlocked = true;
+    state.screen = 'admin';
+    render();
+  } else {
+    showToast('Λάθος κωδικός.');
+  }
+}
+
+async function fetchAllStudents(){
+  try{
+    const r = await apiGet({ action: 'listStudents', adminPin: ADMIN_PIN });
+    if(!r.ok) return [];
+    const students = r.students || [];
+    students.sort((a,b)=> a.name.localeCompare(b.name, 'el'));
+    return students;
+  }catch(e){
+    return [];
+  }
+}
+
+async function renderAdmin(){
+  root.innerHTML = `
+    <div class="app admin-screen">
+      <div class="admin-topbar">
+        <div class="brand">
+          <div class="brand-mark">${ICONS.leafMark}</div>
+          <div class="brand-text">Πίνακας Ελέγχου<br><small>Stamenou Education</small></div>
+        </div>
+        <button class="btn btn-secondary btn-sm" id="adminExitBtn" style="background:transparent;border-color:rgba(255,255,255,0.3);color:#fff;box-shadow:none;">Έξοδος</button>
+      </div>
+      <div class="admin-body">
+        <div class="tab-row">
+          <button class="tab-btn ${state.adminTab==='students'?'active':''}" data-tab="students">Μαθητές</button>
+          <button class="tab-btn ${state.adminTab==='create'?'active':''}" data-tab="create">Νέος μαθητής</button>
+        </div>
+        <div id="adminContent">Φόρτωση…</div>
+      </div>
+    </div>
+  `;
+  document.getElementById('adminExitBtn').onclick = ()=>{ state.screen='login'; state.adminUnlocked=false; render(); };
+  document.querySelectorAll('.tab-btn').forEach(btn=>{
+    btn.onclick = ()=>{ state.adminTab = btn.dataset.tab; renderAdmin(); };
+  });
+
+  const content = document.getElementById('adminContent');
+  if(state.adminTab === 'create'){
+    renderAdminCreate(content);
+  } else {
+    const students = await fetchAllStudents();
+    state.studentsCache = students;
+    renderAdminStudents(content, students);
+  }
+}
+
+function renderAdminCreate(container){
+  container.innerHTML = `
+    <div class="admin-gen-card">
+      <div style="font-weight:700;color:var(--sage-dark);">Δημιουργία λογαριασμού μαθητή</div>
+      <div class="gen-row">
+        <input id="newName" type="text" placeholder="Όνομα μαθητή">
+        <input id="newPin" type="tel" inputmode="numeric" maxlength="4" placeholder="4-ψήφιος κωδικός" style="max-width:140px;">
+      </div>
+      <button class="btn btn-primary" id="createStudentBtn">Δημιουργία</button>
+      <div id="createMsg" class="gen-list"></div>
+    </div>
+  `;
+  document.getElementById('createStudentBtn').onclick = async ()=>{
+    const name = document.getElementById('newName').value.trim();
+    const pin = document.getElementById('newPin').value.trim();
+    const msg = document.getElementById('createMsg');
+    if(!name || pin.length < 4){ msg.textContent = 'Χρειάζεται όνομα και 4-ψήφιο κωδικό.'; return; }
+    const r = await apiPost({ action: 'adminCreateStudent', name, pin, adminPin: ADMIN_PIN });
+    if(!r.ok){ msg.textContent = r.error || 'Κάτι πήγε στραβά.'; return; }
+    msg.textContent = `Δημιουργήθηκε: ${name} — κωδικός ${pin}`;
+    document.getElementById('newName').value=''; document.getElementById('newPin').value='';
+    showToast('Ο μαθητής δημιουργήθηκε ✓');
+  };
+}
+
+function renderAdminStudents(container, students){
+  if(students.length === 0){
+    container.innerHTML = `<div class="admin-empty">Δεν υπάρχουν ακόμα μαθητές.<br>Δημιούργησε τον πρώτο λογαριασμό από την καρτέλα «Νέος μαθητής».</div>`;
+    return;
+  }
+
+  container.innerHTML = `
+    <input class="admin-search" id="adminSearch" placeholder="Αναζήτηση μαθητή...">
+    <div id="studentList"></div>
+  `;
+  const listEl = document.getElementById('studentList');
+
+  function draw(filter){
+    const filtered = filter
+      ? students.filter(s=> norm(s.name).includes(norm(filter)))
+      : students;
+    listEl.innerHTML = filtered.map(s=>{
+      const pct = Math.round((s.completedVerbIds.length / VERBS.length) * 100);
+      const accuracy = s.totalAttempts ? Math.round((s.totalCorrect/s.totalAttempts)*100) : 0;
+      const daysActive = Object.keys(s.dayLog).length;
+      return `<div class="student-card">
+        <div class="student-row">
+          <div>
+            <div class="student-name">${escapeHtml(s.name)}</div>
+            <div class="student-meta">Κωδικός: ${escapeHtml(s.pin)} · Εγγραφή: ${escapeHtml(s.createdAt)}</div>
+          </div>
+          <div class="pill streak">${ICONS.fire} ${s.streak}</div>
+        </div>
+        <div class="student-stats">
+          <div class="sstat"><span class="sval">${s.completedVerbIds.length}/${VERBS.length}</span> ρήματα</div>
+          <div class="sstat"><span class="sval">${accuracy}%</span> ακρίβεια</div>
+          <div class="sstat"><span class="sval">${daysActive}</span> ημέρες ενεργός</div>
+        </div>
+        <div class="mini-bar"><div class="mini-bar-fill" style="width:${pct}%"></div></div>
+      </div>`;
+    }).join('');
+  }
+  draw('');
+  document.getElementById('adminSearch').addEventListener('input', e=> draw(e.target.value));
+}
+
+// ============================================================
+// BOOTSTRAP
+// ============================================================
+async function boot(){
+  state.screen = 'boot';
+  render();
+  // small delay so the loading state is visible at least briefly
+  await new Promise(r=>setTimeout(r, 250));
+  state.screen = 'login';
+  render();
+}
+
+boot();
+
+</script>
+</body>
+</html>
